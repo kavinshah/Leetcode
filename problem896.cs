@@ -13,7 +13,7 @@ public class Solution {
             prev=n;
         }
         
-        if(!flag)
+        if(!flag && prev==nums[0])
         {
             prev=nums[0];
             foreach(int n in nums)
