@@ -1,32 +1,21 @@
 public class Solution {
     public bool IsMonotonic(int[] nums) {
-        int prev=nums[0];
-        bool flag=true;
+        int store=0;
         
-        foreach(int n in nums)
+        for(int i=0; i<nums.Length-1; i++)
         {
-            if(n<prev)
+            int c = nums[i].CompareTo(nums[i+1]);
+            if(c!=0)
             {
-                flag=false;
-                break;
-            }
-            prev=n;
-        }
-        
-        if(!flag && prev==nums[0])
-        {
-            prev=nums[0];
-            foreach(int n in nums)
-            {
-                if(n>prev)
+                if(c!=store && store!=0)
                 {
                     return false;
                 }
-                prev=n;
+                store=c;
             }
-            
-            return true;
         }
-        return flag;
+        
+        return true;
+        
     }
 }
