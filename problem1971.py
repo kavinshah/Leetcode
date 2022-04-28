@@ -14,10 +14,28 @@ Go figure
 from collections import defaultdict
 class Solution:
     def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        
+        def DFS(vertex):
+            nonlocal visited, destination, adj
+            
+            if vertex==destination:
+                return True
+            
+            for neighbour in adj[vertex]:
+                if neighbour not in visited:
+                    visited.add(neighbour)
+                    found=DFS(neighbour)
+                    if found:
+                        return True
+                    
+            return False
+            
+        
         #build adj list
         if source==destination:
             return True
         adj=defaultdict(set)
+        visited=set()
         
         for e in edges:
             adj[e[0]].add(e[1])
@@ -25,18 +43,5 @@ class Solution:
         
         #print(adj)
         
-        #traverse DFS. start with start vertex and end at destination vertex
-        stack = [source]
-        visited = set()
-        visited.add(source)
-        while(stack):
-            current = stack.pop()
-            #print(current)
-            for neighbour in adj[current]:
-                if neighbour==destination:
-                    return True
-                if neighbour not in visited:
-                    stack.append(neighbour)
-                    visited.add(neighbour)
-                
-        return False
+        #perform DFS
+        return DFS(source)
