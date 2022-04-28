@@ -11,20 +11,20 @@ class Solution:
                 return -1
         
         # Find rotation offset
-        found_offset = False
         for offset in range(n):
-            found_offset = True
             for i in range(min(n, m)):
                 if a[(offset+i)%n] != b[i]:
-                    found_offset = False
                     break
-            if found_offset:
+            else:
                 break
-        if not found_offset:
+        else:
             return -1
         
         # Use offset in our calculation
         if m <= n - offset:
             return 1
         else:
-            return 1 + math.ceil((m - (n-offset))/n)
+            return 1 + ceil_div(m - (n-offset), n)
+​
+def ceil_div(a, b):
+    return (a + b - 1) // b
