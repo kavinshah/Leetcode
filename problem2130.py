@@ -16,16 +16,16 @@ reverse the list from n/2+1 to n and then run 2 pointers starting at 0 and n/2+1
 approach 3:
 create another list in reverse order and then evaluate the pairs from 0 to n/2-1
 
+fine tuning:
+
+Use slow and fast pointers to find the middle elemnt of the linked list.
+
 5->4->2->1
-
 5->4
-
-
 
 """
 class Solution:
     def pairSum(self, head: Optional[ListNode]) -> int:
-        
         def reverseList(node):
             nextnode=None
             curr=node
@@ -40,11 +40,9 @@ class Solution:
         
         slow = head
         fast = head
-        
         while(fast):
             slow=slow.next
             fast=fast.next.next
-         
         mid = reverseList(slow)
         maxsum=float('-inf')
         while(mid and head):
