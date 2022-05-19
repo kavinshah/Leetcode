@@ -25,28 +25,20 @@ front=4, back=1, chars = vdf, count=3, max=3
     front=4, back=3, chars = fd, count=2, max=3
 front=5    
 
-
+time: O(N), space: O(min(n,C)), where C=size of the input charset.
 
 """
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        chars = set()
+        chars = {}
         maxcount = 0
         currcount = 0
-        j=0
+        j=-1
+        
         for i in range(len(s)):
-            if s[i] not in chars:
-                currcount +=1
-                chars.add(s[i])
-            else:
-                maxcount = max(maxcount, currcount)
-                while(s[i] in chars):
-                    chars.remove(s[j])
-                    currcount-=1
-                    j+=1
-                currcount+=1
-                chars.add(s[i])
-                
-            #print(chars)
+            if s[i] in chars:
+                j=max(j, chars[s[i]])
+            chars[s[i]]=i
+            maxcount = max(maxcount, i-j)
         return max(maxcount, currcount)
                 
