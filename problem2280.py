@@ -16,4 +16,5 @@ class Solution:
                 #print(i, count)
         return count
             
-                    
+# Time: O(NlogN),
+# Space: O(N)
