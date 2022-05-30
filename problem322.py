@@ -31,29 +31,10 @@
 """
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        coins = sorted(coins, reverse=True)
-        result=float('inf')
-        coindict = {0:0}
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
         
-        for c in coins:
-            coindict[c]=1
-            
-        for a in range(1, amount+1):
-            if a in coindict:
-                continue
-                
-            res = float('inf')
-            for c in coins:
-                if (a-c)>=0 and (a-c) in coindict:
-                    res=min(res, 1+coindict[a-c])
-                #print(a, c, coindict)
-                
-            if res != float('inf'):
-                coindict[a]=res
-                
-            #print(a, coindict)
-            
-        if amount in coindict:
-            return coindict[amount]
-        
-        return -1
+        for coin in coins:
+            for x in range(coin, amount + 1):
+                dp[x] = min(dp[x], dp[x - coin] + 1)
+        return dp[amount] if dp[amount] != float('inf') else -1 
