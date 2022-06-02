@@ -40,8 +40,7 @@ class Solution:
             # is the element which is smaller than current element
             if stack:
                 left[i]=i-(stack[-1])
-            else:
-                left[i]=i+1
+
             stack.append(i)
             
         return sum(arr[i]*left[i]*right[i] for i in range(len(arr))) % 1000000007
