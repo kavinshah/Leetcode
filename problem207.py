@@ -31,24 +31,28 @@
 """
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        
-        def Traverse(node):
-            nonlocal courses, currentpath, visited
-            #print(node, currentpath, visited)
-            for neighbour in courses[node]:
-                if neighbour in currentpath:
-                    return False
-                if neighbour not in visited:
-                    visited.add(neighbour)
-                    currentpath.add(neighbour)
-                    if not Traverse(neighbour):
-                        return False
-                    currentpath.remove(neighbour)
-            return True
-                 
+        def isCyclic(node):
+            nonlocal currentpath, checked, courses
+            
+            if checked[node]:
+                return False
+            
+            if currentpath[node]:
+                return True
+            
+            currentpath[node]=True
+            
+            for neighbor in courses[node]:
+                if isCyclic(neighbor):
+                    return True
+                
+            currentpath[node]=False
+            checked[node]=True
+            return False
+            
         courses = defaultdict(set)
-        currentpath = set()
-        visited= set()
+        currentpath = [False]*numCourses
+        checked = [False]*numCourses
         for i in range(numCourses):
             courses[i]
             
@@ -58,12 +62,8 @@ class Solution:
         #print(courses, courses.keys())
         
         for c in courses.keys():
-            if c not in visited:
-                visited.add(c)
-                currentpath.add(c)
-                if not Traverse(c):
-                    return False
-                currentpath.remove(c)
+            if isCyclic(c):
+                return False
                 
         return True   
         
