@@ -8,15 +8,16 @@ aaaaaaaaaa
 class Solution:
     def countLetters(self, s: str) -> int:
         prev=s[0]
-        count=0
+        currcount=1
         result=0
-        for i in range(len(s)):
+        for i in range(1, len(s)):
             ch=s[i]
             if ch==prev:
-                count+=1
+                currcount += 1
             else:
                 prev=ch
-                count=1
-            result+=count
-            
+                result+=(currcount*(currcount+1))//2
+                currcount=1
+                
+        result+=(currcount*(currcount+1))//2
         return result
