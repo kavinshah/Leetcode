@@ -60,17 +60,13 @@ class Solution:
                     getPerm(res)
                     res.pop()
                     keyval[key]+=1
-                
                 if not flag:
                     resultset.append(''.join(res+[evenChar]+res[::-1]))
-            
+                    
             counts = [0]*26
             evenChar=""
             resultset = []
             keyval = {}
-            
-            if len(s)==1:
-                return [s]
             
             if not checkPalindrome(s):
                 return []
