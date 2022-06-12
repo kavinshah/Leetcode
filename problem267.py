@@ -62,11 +62,11 @@ class Solution:
                     keyval[key]+=1
                 
                 if not flag:
-                    resultset.add(''.join(res+[evenChar]+res[::-1]))
+                    resultset.append(''.join(res+[evenChar]+res[::-1]))
             
             counts = [0]*26
             evenChar=""
-            resultset = set()
+            resultset = []
             keyval = {}
             
             if len(s)==1:
@@ -75,10 +75,6 @@ class Solution:
             if not checkPalindrome(s):
                 return []
 
-            for key in keyval.keys():
-                keyval[key]-=1
-                getPerm([str(key)])
-                keyval[key]+=1
-                
+            getPerm([])    
             return list(resultset)
         
