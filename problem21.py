@@ -8,10 +8,10 @@ class Solution:
         l=result=ListNode()
         while(list1 and list2):
             if list1.val>list2.val:
-                result.next=ListNode(list2.val)
+                result.next=list2
                 list2=list2.next
             else:
-                result.next=ListNode(list1.val)
+                result.next=list1
                 list1=list1.next
             result=result.next
         
