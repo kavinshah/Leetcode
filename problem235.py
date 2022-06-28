@@ -12,13 +12,13 @@
 """
 class Solution:
     def lowestCommonAncestor(self, r: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        
-        def traverseBST(root, p, q):
+        root=r
+        while(root):
             if p.val>root.val and q.val>root.val:
-                return traverseBST(root.right, p, q)
+                root = root.right
             elif p.val<root.val and q.val<root.val:
-                return traverseBST(root.left, p, q)
+                root=root.left
             else:
                 return root
             
-        return traverseBST(r, p, q)
+        return root
