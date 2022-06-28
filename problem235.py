@@ -12,36 +12,13 @@
 """
 class Solution:
     def lowestCommonAncestor(self, r: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        path = []
-        def getPath(root, node):
-            nonlocal path
-            if not root:
-                return False
-            path.append(root)
-            if root.val==node.val:
-                return True
+        
+        def traverseBST(root, p, q):
+            if p.val>root.val and q.val>root.val:
+                return traverseBST(root.right, p, q)
+            elif p.val<root.val and q.val<root.val:
+                return traverseBST(root.left, p, q)
+            else:
+                return root
             
-            if root.val>node.val:
-                return getPath(root.left, node)
-            return getPath(root.right, node)
-        
-        getPath(r, p)
-        p1 = path.copy()
-        path=[]
-        getPath(r, q)
-        p2 = path.copy()
-        i=0
-        result=None
-        #print(p1, p2)
-        while i<len(p1) and i<len(p2):
-            if p1[i].val!=p2[i].val:
-                return result
-            result=p1[i]
-            i+=1
-        
-        return result
-        
-        
-#Time: O(N)
-#Space: O(N)
-            
+        return traverseBST(r, p, q)
