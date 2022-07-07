@@ -1,40 +1,37 @@
 """
 
-                        11
-                /       |       \
-                6         9        10
-            /   |   \
-            1   4   5
-    /   |   \   /|\   
-    -4  -1  0  -1,2,0
-            |    /|\
-            3  -2,0,1 
-                  | /|\              
-                  4-4,-1,0
-                         |
-                         
-0:0
-1:1
-2:1
-3:2
-4:2
-5:1
-6:2
-7:2
-8:3
-9:3
-10:2
-11:3
-12:3
-13:4
+                            11
+                    /       |       \
+                   6        9       10
+                /   |   \
+              1     4   5
+             /|\
+           -5-1 0
 
 """
+
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [float('inf')] * (amount + 1)
-        dp[0] = 0
+        coins=sorted(coins, reverse=True)
+        memoization = [0]*(amount+1)
+        def performChange(x):
+            nonlocal coins, memoization
+            if x==0:
+                return 0
+            if x<0:
+                return -1
+            if memoization[x]!=0:
+                return memoization[x]
+            minimum = float('inf')
+            for c in coins:
+                result = performChange(x-c)
+                if result>=0:
+                    minimum = min(minimum, 1+result)
+            if minimum == float('inf'):
+                memoization[x]=-1
+            else:
+                memoization[x]=minimum
+            return memoization[x]
         
-        for coin in coins:
-            for x in range(coin, amount + 1):
-                dp[x] = min(dp[x], dp[x - coin] + 1)
-        return dp[amount] if dp[amount] != float('inf') else -1 
+        result=performChange(amount)
+        return result
