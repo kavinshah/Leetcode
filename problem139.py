@@ -15,3 +15,6 @@ class Solution:
                     dp[i]=1
                     
         return dp[len(s)]
+    
+#Time: O(N)
+#Space: O(N)
