@@ -19,6 +19,5 @@ class Solution:
             
         return third
         
-        
 #Time: O(N)
 #Space: O(1)
