@@ -6,17 +6,27 @@ dp[i]= min(dp[i], 1+dp[i-c]) - c=coins, and i-c>=0
 """
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        
-        dp=[float('inf')]*(amount+1)
-        dp[0]=0
-        for i in range(amount+1):
+        memoize = [0]*(amount+1)
+        def performChange(x):
+            nonlocal coins, memoize
+            if x<0:
+                return -1
+            if x==0:
+                return 0
+            if memoize[x]!=0:
+                return memoize[x]
+            minimum = float('inf')
             for c in coins:
-                if (i-c)>=0:
-                    dp[i]=min(dp[i], 1+dp[i-c])
-                    
-        if dp[amount]==float('inf'):
-            return -1
-        return dp[amount]
+                res = performChange(x-c)
+                if res>=0:
+                    minimum=min(minimum, 1+res)
+            if minimum==float('inf'):
+                memoize[x]=-1
+            else:
+                memoize[x]=minimum
+            return memoize[x]
+            
+        return performChange(amount)
     
     
 #time: O(amount*N)
