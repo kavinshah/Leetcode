@@ -10,7 +10,7 @@ class Solution:
         wordSet = frozenset(wordDict)
         dp[0]=True
         for i in range(len(s)+1):
-            for j in range(i):
+            for j in range(i-1,-1,-1):
                 if dp[j] and s[j:i] in wordSet:
                     dp[i]=1
                     
