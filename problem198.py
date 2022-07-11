@@ -51,13 +51,12 @@ memo=[2,2,3,4,10,13,13,14], i=7
 class Solution:
     def rob(self, nums: List[int]) -> int:
         first=0
-        second=nums[0]
+        second=nums[-1]
         third=max(first, second)
-        for i in range(2, len(nums)+1):
-            third=max(first+nums[i-1], second)
+        for i in range(len(nums)-2,-1,-1):
+            third=max(first+nums[i], second)
             first=second
             second=third
-            
         return third
     
 #Time: O(N)
