@@ -50,13 +50,15 @@ memo=[2,2,3,4,10,13,13,14], i=7
 """
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        dp=[0]*(len(nums)+1)
-        dp[-1]=0
-        dp[-2]=nums[-1]
-        for i in range(len(nums)-2, -1,-1):
-            dp[i]=max(dp[i+1], nums[i]+dp[i+2])
+        first=0
+        second=nums[0]
+        third=max(first, second)
+        for i in range(2, len(nums)+1):
+            third=max(first+nums[i-1], second)
+            first=second
+            second=third
             
-        return dp[0]
+        return third
     
 #Time: O(N)
-#Space: O(N)
+#Space: O(1)
