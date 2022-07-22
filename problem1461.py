@@ -9,5 +9,4 @@ class Solution:
                 count-=1
         return count==0
             
-#Time: O(NK)
-#space: O(NK)
+        
