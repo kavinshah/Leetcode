@@ -102,13 +102,15 @@ g   1   1   1   1   1   1   1   1   1   0
 """
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        result = [[0]*(len(text1)+1) for i in range(len(text2)+1)]
+        result = [[0]*(len(text1)+1) for i in range(2)]
         #print(f'row: {len(result)}, cols: {len(result[0])}')
         for i in range(len(text2)-1,-1,-1):
+            result[0]=[0]*(len(text1)+1)
             for j in range(len(text1)-1,-1,-1):
                 if ord(text1[j])==ord(text2[i]):
-                    result[i][j]=1+result[i+1][j+1]
+                    result[0][j]=1+result[1][j+1]
                 else:
-                    result[i][j]=max(result[i+1][j], result[i][j+1])
+                    result[0][j]=max(result[1][j], result[0][j+1])
+            result[1]=result[0].copy()
                 #print(i,j, result[i][j])
-        return result[0][0]
+        return result[1][0]
