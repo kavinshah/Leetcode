@@ -7,6 +7,9 @@
 
 """
 
+inorder traversal : left + root.val + right
+
+
                 1
              /      \
             2        3
@@ -28,7 +31,7 @@ stack=[], right=[], result=[1]
 
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        result=[]
-        stack = [root]
-        while(stack):
-            
+        if not root:
+            return []
+        
+        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
