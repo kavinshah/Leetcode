@@ -1,116 +1,90 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+#     1 -> 2 -> 3
+# odd= slow.next to end
+
+#     1 -> 2 -> 3 -> 4
+    
+# even = prev.next to end
+    
+#     1->2->3->4->5
+# odd=prev.next to end
+
+#     1->2->3->4->5->6
+
+# 1->2->null
+# 3->null
+
+# 1->3->2
 """
 
-                                abcd, pabsd
-                            /                       \
-                        bcd,bsd                     abcd,bsd
-                       /        \                   /           \
-                    cd,sd       cd,bsd          cd,sd             bcd,sd
-                    /   \       /    \          /      \            /       \
-                '',''     d,"" '','' d,''    '',''     bcd,sd     d,d      d,''
-                             /   \                      /   \      /   \ 
-                            '',''  d,''                 d,d  d,'' d,'' '',''
-                                                       /    \
-                                                     d,'' '',''
+ideal brute force:
 
-abcde, ace
-ace, abcde
-i=0, j=0, result=1
-i=1, j=1, result=1
-i=1, j=2, result=2
-i=2, j=3, result=2
-i=2, j=4, result=3
-i=3, j=5
-ace, abcde
-    a   c   e
-a   
-b
-c
-d
-e           1
+-> find length of list
+-> create a list from n/2+1 to end in reverse order.
+-> merge both the lists.
 
 
-                            abc, def
-                            /         \
-                        
-i=0, j=0, current=0
-i=1, j=0, current=0
-i=2, j=0, current=0
-i=3, return 0
-
-
-                            acef, abccdef
-                            /           \
-                        
-i=0, j=0, current=4
-i=1, j=0, current=4
-i=2, j=0, current=4
-i=3, j=0, current=4
-
-                            psnw, vozsh
-                        /               \
-                        
-i=0, j=0, result=0
-i=1, j=0, result=1
-i=2, j=0, result=1
-i=3, j=0, result=1
-
-                                                psnw, vozsh
-                        /                                                       \
-                snw, vozsh                                                      psnw, ozsh
-                /           \
-        nw, vozsh           snw, ozsh
-        /           \           
-    w, vozsh        nw, vozsh
-    /       \        /       \
-"", vozsh w,ozsh    w,vozsh   nw,ozsh
-|        /      \     /     \         /         \
-0     "",zsh    w,zsh '',vozsh w,ozsh w,ozsh    nw,zsh
-        |       /   \     |      |    /   \     /   \
-        0    '',zsh w,sh  0      0   0  w,zsh  0     0
-                |   /   \
-                0 '',sh  w,h
-                    |    /  \
-                    0  "",h w,""
-                        |    |
-                        0    0
-i=0, j=0
-
-if i> len(text1) or j>len(text2):
-    return 0
-else if text1[i]==text2[j]:
-    1+find(i+1,j+1)
-else:
-    max(find(i,j+1), find(i+1,j))
-
-
-bottom up (tabulation) -
-
-
-    g   t   g   t   g   a   t   c   g
-a   5   5   5   5   4   3   2   2   1   0
-c   5   5   5   5   4   3   2   2   1   0
-t   5   5   5   5   4   3   2   1   1   0
-g   5   4   4   4   4   3   2   1   1   0
-a   4   4   3   3   3   3   2   1   1   0
-t   4   4   3   3   2   2   2   1   1   0
-t   3   3   3   3   2   2   2   1   1   0
-a   2   2   2   2   2   2   1   1   1   0
-g   1   1   1   1   1   1   1   1   1   0
-    0   0   0   0   0   0   0   0   0   0
-
+optmized
+-> find the mid point using fast and slow pointers
+-> reverse the second half of the list.
+-> traverse from both the ends of the list and merge the heads
 
 """
+
+
 class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        result = [[0]*(len(text1)+1) for i in range(2)]
-        #print(f'row: {len(result)}, cols: {len(result[0])}')
-        for i in range(len(text2)-1,-1,-1):
-            result[0]=[0]*(len(text1)+1)
-            for j in range(len(text1)-1,-1,-1):
-                if ord(text1[j])==ord(text2[i]):
-                    result[0][j]=1+result[1][j+1]
-                else:
-                    result[0][j]=max(result[1][j], result[0][j+1])
-            result[1]=result[0].copy()
-                #print(i,j, result[i][j])
-        return result[1][0]
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if head==None or head.next==None:
+            return head
+        
+        slow=head
+        fast=head
+        prev=None
+        while(fast and slow):
+            fast=fast.next
+            if not fast:
+                prev=prev.next
+                break
+            fast=fast.next
+            prev=slow
+            slow=slow.next
+            
+        head2=prev.next
+        prev.next=None
+        
+        #reverse from head2 to end
+        current=head2
+        nextNode=None
+        prev=None
+        while current:
+            nextNode=current.next
+            current.next=prev
+            prev=current
+            current=nextNode
+        
+        head2=prev
+        
+        #merge 2 lists
+        h1=head
+        h2=head2
+        #print(head,head2)
+        while h1 and h2:
+            t2=h2
+            h2=h2.next
+            t1=h1.next
+            h1.next=t2
+            t2.next=t1
+            h1=t1
+            
+        return head
+
+
+        
