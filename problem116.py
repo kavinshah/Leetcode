@@ -25,24 +25,22 @@ recursion on right child
 
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        
-        def Traverse(node):
-            if not node:
-                return
-            
-            if node.left:
-                node.left.next=node.right
-                
-            if node.right and node.next:
-                node.right.next=node.next.left
-            
-            Traverse(node.left)
-            Traverse(node.right)
-            return
-        
-        Traverse(root)
+        queue=deque()
+        queue.append([root])
+        while(queue):
+            currentlevel=queue.pop()
+            nextlevel=[]
+            for i in range(len(currentlevel)-1):
+                currentlevel[i].next=currentlevel[i+1]
+                if currentlevel[i].left:
+                    nextlevel.append(currentlevel[i].left)
+                    nextlevel.append(currentlevel[i].right)
+            if currentlevel and currentlevel[-1] and currentlevel[-1].left:
+                nextlevel.append(currentlevel[-1].left)
+                nextlevel.append(currentlevel[-1].right)
+            if nextlevel:
+                queue.append(nextlevel)
         return root
     
-    
 # time: O(N)
-#Space: O(logN)
+#Space: O(N)
