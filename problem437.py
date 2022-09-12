@@ -24,6 +24,5 @@ class Solution:
         dfs(root, 0)
         return counts
         
-#Time:O(V+E)
+#Time: O(V+E)
 #Space: O(V+E)
-#https://replit.com/@vokoshyv/CrushingRipeSysadmin#index.js
