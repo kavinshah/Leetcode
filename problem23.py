@@ -33,5 +33,5 @@ class Solution:
         #return the head once the heap is empty.
         return head.next
     
-#time: O(NklogK)
+#time: O(NlogK)
 #space: O(K)
