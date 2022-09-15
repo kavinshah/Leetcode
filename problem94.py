@@ -4,34 +4,40 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 """
 
-inorder traversal : left + root.val + right
+iteratively:
 
-
-                1
-             /      \
-            2        3
-         /    \     /
-        4     5    6
+                            1
+                    /               \
+                    2               3
+                /       \       /       \
+                4       5       6       7
+                
+                
 stack=[1]
-left=[2], result=[1]
-left=[4], stack = [], right=[3], result=[2,1]
-left=[], stack = [], right=[3,5], result=[4, 2,1]
-left=[], stack = [], right=[3], result=[4, 2,1,5]
-left=[], stack = [], right=[3], result=[4, 2,1,5]
+stack=[3,1,2]
 
 
-left + root.val + right
-stack=[], right=[], result=[1]
-stack=[], right=[], result=[1]
 
 """
-
+#iterative approach
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return []
+        stack=[]
+        res=[]
         
-        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
+        while True:
+            while root:
+                stack.append(root)
+                root=root.left
+            if not stack:
+                return res
+            root=stack.pop()
+            res.append(root.val)
+            root=root.right
+            
+        return res
+            
+            
+            
