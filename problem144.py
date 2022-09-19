@@ -1,37 +1,20 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-
-"""
-
-pre-order : [root.val] + left + right
-
-                                1
-                            /       \
-                            2         3
-                        /       \   /   \
-                        4       5   6   7
-
-q=[1], res=[]
-q=[2,3], res=[1]
-q=[3,4,5], res=[1,2]
-q=[4,5,6,7], res=[1,2,3]
-q=[5,6,7], res=[1,2,3,4]
-q=[6,7], res=[1,2,3,4,5]
-q=[7], res=[1,2,3,4,5,6]
-q=[], res=[1,2,3,4,5,6,7]
-
-[1,2,4,5,3,6,7]
-
-"""
-
-
+#iterative approach
 class Solution:
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
+        stack=[(root, False)]
+        result=[]
+        while(stack):
+            curr, visited=stack.pop()
+            if visited:
+                result.append(curr.val)
+            else:
+                if curr.right:
+                    stack.append((curr.right, False))
+                if curr.left:
+                    stack.append((curr.left, False))
+                stack.append((curr, True))
+        return result
         
-        return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
+        

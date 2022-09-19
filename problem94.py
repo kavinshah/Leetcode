@@ -21,23 +21,23 @@ stack=[3,1,2]
 
 
 """
-#iterative approach
+
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        stack=[]
-        res=[]
+        if not root:
+            return []
+        stack=[(root, False)]
+        result=[]
+        while(stack):
+            curr, visited=stack.pop()
+            if visited:
+                result.append(curr.val)
+            else:
+                if curr.right:
+                    stack.append((curr.right, False))
+                stack.append((curr, True))
+                if curr.left:
+                    stack.append((curr.left, False))
+                
+        return result
         
-        while True:
-            while root:
-                stack.append(root)
-                root=root.left
-            if not stack:
-                return res
-            root=stack.pop()
-            res.append(root.val)
-            root=root.right
-            
-        return res
-            
-            
-            

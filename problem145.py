@@ -4,15 +4,25 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-"""
+#iterative approach
 
-postorder traversal: root.val + left + right
-
-"""
 class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        
         if not root:
             return []
-        
-        return self.postorderTraversal(root.left) +self.postorderTraversal(root.right) + [root.val]
+        stack=[(root, False)]
+        result=[]
+        while(stack):
+            curr, visited=stack.pop()
+            if visited:
+                result.append(curr.val)
+            else:
+                stack.append((curr, True))
+                if curr.right:
+                    stack.append((curr.right, False))
+                if curr.left:
+                    stack.append((curr.left, False))
+                
+        return result
+            
+            
