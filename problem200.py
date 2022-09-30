@@ -1,33 +1,28 @@
-"""
-
-1. traverse over the input matrix for every cell = 1 and not visited.
-2. while traversing - use DFS for every neighbour which is not visited and = 1
-3. use a stack for performing DFS since the range can give stack overflow.
-4. count the number of times 2 and 3 are performed. The result is number of island
-
-"""
-from collections import deque
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        count = 0
-        maxR, maxC = len(grid), len(grid[0])
-        directions = [[0,1],[0,-1], [1,0], [-1,0]]
-        queue = deque()
-        for row in range(len(grid)):
-            for col in range(len(grid[0])):
-                if grid[row][col]=="1":
-                    count += 1
-                    grid[row][col]="2"
-                    queue.append((row, col))
-                    while(queue):
-                        currRow, currCol = queue.popleft()
-                        for d in directions:
-                            newRow=currRow+d[0]
-                            newCol=currCol+d[1]
-                            if 0<=newRow<maxR and 0<=newCol<maxC and grid[newRow][newCol]=="1":
-                                grid[newRow][newCol]="2"
-                                queue.append((newRow, newCol))
-                        
+
+        count=0
+        maxR=len(grid)
+        maxC=len(grid[0])
+        def countIslands(r, c):
+            nonlocal grid, count, maxR, maxC
+            if r<0 or r>=maxR or c<0 or c>=maxC or grid[r][c]!="1":
+                return
+            grid[r][c]="-1"
+            countIslands(r-1,c)
+            countIslands(r+1,c)
+            countIslands(r,c+1)
+            countIslands(r,c-1)
+
+        for i in range(maxR):
+            for j in range(maxC):
+                #print(i,j, grid[i][j])
+                if grid[i][j]=="1":
+                    count+=1
+                    countIslands(i,j)
+
         return count
-        
-            
+
+
+#time: O(MN)
+#Space: O(MN)
