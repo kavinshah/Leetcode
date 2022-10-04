@@ -21,3 +21,7 @@ class Solution:
                     heappush(maxheap, x)
 
         return maxheap[0]
+
+
+#time: O(nlog(n^2-k+1))
+#space: O(n^2-K)
