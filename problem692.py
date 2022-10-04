@@ -21,6 +21,28 @@ space: O(N)
 time: O(Nlogk) -- N=total size, M=no. of unique elements, K=input k
 space: O(N)
 
+leetcode solution:
+Complexity Analysis
+Let NN
+ be the length of words.
+Time Complexity: O(N)O(N)
+. We take O(N)O(N)
+ time to count frequencies and enumerate all buckets. Since we only need to get kk
+ words from tries, we traverse kk
+ paths in tries, and each path is neglectable in length (≤10≤10
+), O(k)O(k)
+ time is required to generate all those words from tries. Besides, it takes O(N)O(N)
+ time to put NN
+ words in tries. As k≤Nk≤N
+, O(N+k)=O(N)O(N+k)=O(N)
+Space Complexity: O(N)O(N)
+, like other approaches, our counter cnt needs O(N)O(N)
+ space. Besides, tries to store at most NN
+ words also need O(n)O(n)
+ space.
+Note: Though we optimize the time complexity to O(N)O(N)
+, it may runs slower than previous approaches due to the large constant factors.
+
 """
 
 from collections import Counter
