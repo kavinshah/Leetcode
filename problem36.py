@@ -23,3 +23,7 @@ class Solution:
                 
         return True
 
+
+#time: O(C)
+#space: O(C)
+# time and space is constants since increase in the size of input will not increase time or space usage.
