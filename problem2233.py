@@ -13,17 +13,23 @@ maintain a min heap and always increament the smallest number. This will effecti
 class Solution:
     def maximumProduct(self, nums: List[int], k: int) -> int:
         minheap = []
+        modulo=10**9+7
+        
         for n in nums:
             heapq.heappush(minheap, n)
         
+        if len(nums)==1:
+            return (nums[0]+k)%modulo
+
         while(k>0):
-            k-=1
             x = heapq.heappop(minheap)
-            x+=1
+            y=minheap[0]
+            diff=min(k, y-x+1)
+            k=k-diff
+            x=x+diff
             heapq.heappush(minheap, x)
-            
+        
         product = 1
-        modulo=10**9+7
         for m in minheap:
             product=(product*m)%modulo
 
