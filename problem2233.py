@@ -30,5 +30,5 @@ class Solution:
         return product%modulo
 
 
-#time: O(NlogN)
+#time: O(KlogN)
 #Space: O(NlogN)
