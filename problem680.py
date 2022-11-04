@@ -25,20 +25,22 @@ linear complexity is the only possibility
 
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-        i, j = 0, len(s)-1
         
-        def checkPalindrome(front, back, repeat=False):
-            nonlocal s, i, j
-            while(front<=back):
-                if s[front]!=s[back]:
-                    if not repeat:
-                        i, j = front, back
+        def recursive(left, right, canSkip):
+            print(left, right)
+            nonlocal s
+            while(left<right):
+                if s[left]==s[right]:
+                    left+=1
+                    right-=1
+                elif canSkip:
+                    canSkip=False
+                    #skip on left
+                    return recursive(left+1, right, canSkip) or recursive(left, right-1, canSkip)
+                else:
                     return False
-                front+=1
-                back-=1
             return True
         
-        if not checkPalindrome(i,j):
-            return checkPalindrome(i+1, j, True) or checkPalindrome(i, j-1, True)
+        return recursive(0,len(s)-1, True)
+
         
-        return True
