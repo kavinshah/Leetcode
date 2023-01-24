@@ -18,23 +18,38 @@ l=1, r=3, product = 60, result = 5
 l=1, r=4, exit
 l=2, r=3, product = 12, result = 7
 l=3, r=3, product = 6, result = 8
+
+[10,5,2,6]
+
+10
+10 5
+10 5 2 --
+5 2    -- [5], [5,2]
+5 2 6  -- []
+
+
 */
 
 public class Solution {
     public int NumSubarrayProductLessThanK(int[] nums, int k) {
-        int result = 0;
-        for(int i=0; i<nums.Length; i++)
+        
+        if(k<=1)
         {
-            long product = 1;
-            for(int j=i; j<nums.Length; j++)
+            return 0;
+        }
+        
+        int result = 0;
+        int l=0,r;
+        long product=1;
+        for(r=0; r<nums.Length; r++)
+        {
+            product=product*nums[r];
+            while(product>=k)
             {
-                product = product*nums[j];
-                if(product>=k)
-                {
-                    break;
-                }
-                result+=1;
+                product=(int)product/nums[l];
+                l+=1;
             }
+            result=result+r-l+1;
         }
         return result;
     }
