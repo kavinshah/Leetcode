@@ -38,5 +38,5 @@ public class Solution {
     }
 }
 
-// time: O(MN)
+// time: O(M+N)
 // space: O(M+N)
