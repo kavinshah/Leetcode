@@ -7,16 +7,15 @@ public class Solution {
         for(int i=0; i<k; i++){
             currentSum+=arr[i];
         }
-        average = (double)currentSum/k;
-        if(average >= threshold){
+        
+        if(currentSum >= threshold*k){
             count++;
         }
         
         for(int i=k; i<arr.Length; i++){
             currentSum += arr[i];
             currentSum -= arr[i-k];
-            average=(double)currentSum/k;
-            if(average>=threshold){
+            if(currentSum >= threshold*k){
                 count++;
             }
         }
