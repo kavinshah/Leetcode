@@ -8,6 +8,7 @@ public class Solution {
     public int MaxSatisfied(int[] customers, int[] grumpy, int minutes) {
         _consecutiveSatisfied = new int[customers.Length];
         _satisfiedWhenNotGrumpy = new int[customers.Length];
+        
         for(int i=0;i<minutes;i++){
             currentsum+=customers[i];
         }
