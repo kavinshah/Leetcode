@@ -1,9 +1,5 @@
 /*
 
-1   2   3   2   2   3   5
-    i       j       k   l
-    
-
 [4 5 0 -2 -3 1]
 
 negative numbers and so cannot use sliding window approach
@@ -22,10 +18,7 @@ public class Solution {
         int mod;
         foreach(int num in nums){
             currsum+=num;
-            mod=currsum%k;
-            if(mod<0){
-                mod+=k;
-            }
+            mod=((currsum%k)+k)%k;
             if(!frequency.ContainsKey(mod)){
                 frequency[mod]=0;
             }
@@ -36,6 +29,5 @@ public class Solution {
     }
 }
 
-//Time: O(N)
-//Space: O(N)
-    
+//time: O(N)
+//space: O(N)
