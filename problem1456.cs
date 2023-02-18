@@ -2,9 +2,11 @@ public class Solution {
     public int MaxVowels(string s, int k) {
         int count=0;
         int maxresult=0;
+        HashSet<char> vowels = new HashSet<char>(){'a', 'e','i','o','u'};
+        
         for(int i=0; i<k; i++)
         {
-            if(s[i]=='a' || s[i]=='e' || s[i]=='i' || s[i]=='o' || s[i]=='u')
+            if(vowels.Contains(s[i]))
             {
                 count++;
             }
@@ -13,12 +15,12 @@ public class Solution {
         for(int i=k; i<s.Length; i++)
         {
             
-            if(s[i-k]=='a' || s[i-k]=='e' || s[i-k]=='i' || s[i-k]=='o' || s[i-k]=='u')
+            if(vowels.Contains(s[i-k]))
             {
                 count--;
             }
             
-            if(s[i]=='a' || s[i]=='e' || s[i]=='i' || s[i]=='o' || s[i]=='u')
+            if(vowels.Contains(s[i]))
             {
                 count++;
             }
