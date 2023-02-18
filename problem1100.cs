@@ -4,7 +4,7 @@ public class Solution {
         if(s.Length < k)
             return 0;
         
-        Dictionary<char, int> visited=new Dictionary<char, int>();
+        IDictionary<char, int> visited=new Dictionary<char, int>();
         int count=0;
         
         for(int i=0; i<k; i++)
@@ -15,7 +15,7 @@ public class Solution {
             }
             visited[s[i]]++;
         }
-        if(CheckCounts(visited))
+        if(visited.Count==k)
         {
             count++;
         }
@@ -28,26 +28,16 @@ public class Solution {
             }
             visited[s[i]]++;
             
-            if(CheckCounts(visited))
+            if(visited[s[i-k]]==0)
+            {
+                visited.Remove(s[i-k]);
+            }
+            if(visited.Count == k)
             {
                 count++;
             }
         }
-        
         return count;
-    }
-    
-    public bool CheckCounts(IDictionary<char, int> visited)
-    {
-        foreach(char c in visited.Keys)
-        {
-            if(visited[c]>1)
-            {
-                return false;
-            }
-        }
-        
-        return true;
     }
 }
 
