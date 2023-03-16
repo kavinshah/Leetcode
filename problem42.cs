@@ -1,40 +1,34 @@
 public class Solution {
     public int Trap(int[] height) {
-        int[] leftmax = new int[height.Length];
-        int[] rightmax = new int[height.Length];
-        leftmax[0]=0;
+        int[] leftMax = new int[height.Length];
+        int[] rightMax = new int[height.Length];
         int currMax=0;
         int result=0;
         
-        for(int i=1; i<height.Length; i++)
+        for(int i=0; i<height.Length; i++)
         {
-            currMax=Math.Max(currMax, height[i-1]);
-            leftmax[i]=currMax;
+            leftMax[i]=currMax;
+            currMax=Math.Max(currMax, height[i]);
         }
         
         currMax=0;
-        rightmax[rightmax.Length-1]=0;
-        for(int i=height.Length-2; i>=0; i--)
+        for(int i=height.Length-1; i>=0; i--)
         {
-            currMax=Math.Max(currMax, height[i+1]);
-            rightmax[i]=currMax;
+            rightMax[i]=currMax;
+            currMax=Math.Max(currMax, height[i]);
         }
         
-        //Console.WriteLine(String.Join(",", leftmax));
-        //Console.WriteLine(String.Join(",", rightmax));
-        result=0;
+        // Console.WriteLine(String.Join(",",leftMax));
+        // Console.WriteLine(String.Join(",",rightMax));
         
         for(int i=0; i<height.Length; i++)
         {
-            int diff = Math.Min(leftmax[i], rightmax[i])-height[i];
-            if(diff>0)
-            {
-                result+=diff;
-            }
+            result += Math.Max(0, Math.Min(leftMax[i], rightMax[i]) - height[i]);
         }
         return result;
     }
 }
 
-//Time: O(N)
-//Space: O(N)
+// 3 pass and constant space
+//time: O(N)
+//space: O(N)
