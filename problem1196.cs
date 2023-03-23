@@ -1,3 +1,5 @@
+//using priority queue
+
 public class MinHeap:IComparer<int>
 {
     int IComparer<int>.Compare(int x, int y)
