@@ -22,5 +22,5 @@ public class Solution {
     }
 }
 
-//time: O(log N)
+//time: O(1)
 //space: O(1)
