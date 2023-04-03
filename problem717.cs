@@ -6,29 +6,25 @@ if current char=1: then go 2 position
 */
 
 public class Solution {
-    int[] bits;
     public bool IsOneBitCharacter(int[] bits) {
-        this.bits=bits;
-        return Traverse(0);
+        int position=0;
+        
+        while(true)
+        {
+            if(position>=bits.Length)
+                return false;
+            else if(position == bits.Length-1)
+                return true;
+                
+            if(bits[position]==0)
+                position+=1;
+            else
+                position+=2;
+        }
     }
     
-    public bool Traverse(int position)   
-    {
-        //Console.WriteLine(position);   
-        if(position>=bits.Length)
-            return false;
-        
-        if(position==bits.Length-1)
-            return true;
-        
-        if(bits[position]==1)
-            return Traverse(position+2);
-        else
-            return Traverse(position+1);
-            
-    }
+    
 }
 
-
 //time: O(N)
-//space: O(N)
+//space: O(1)
