@@ -18,16 +18,15 @@ public class Solution {
     int[] nums;
     int result=0;
     int k;
-    List<int> visited;
+    //List<int> visited;
+    Dictionary<int,int> visited;
     public int BeautifulSubsets(int[] nums, int k) {
         this.nums=nums;
-        this.visited=new List<int>();
+        //this.visited=new List<int>();
+        this.visited = new Dictionary<int, int>();
         this.k=k;
-        
-        Array.Sort(this.nums);
         if(nums.Length==0)
             return 0;
-        
         Dfs(0);
         return result;
     }
@@ -37,18 +36,22 @@ public class Solution {
         if(index==nums.Length)
             return;
         
-        if(!visited.Contains(nums[index]-k))
+        if(!visited.ContainsKey(nums[index]-k) && !visited.ContainsKey(nums[index]+k))
         {
             result++;
-            visited.Add(nums[index]);
-            //Console.WriteLine(String.Join(",", visited));
+            if(!visited.ContainsKey(nums[index]))
+                visited[nums[index]]=0;
+            visited[nums[index]]++;
+            //Console.WriteLine(String.Join(",", visited.Keys));
             Dfs(index+1);
-            visited.RemoveAt(visited.Count-1);
+            visited[nums[index]]--;
+            if(visited[nums[index]]==0)
+                visited.Remove(nums[index]);
         }
         Dfs(index+1);
         return;
     }
 }
 
-//time: O(n*2^n)
+//time: O(2^n)
 //space: O(N)
