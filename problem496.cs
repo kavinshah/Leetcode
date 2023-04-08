@@ -1,26 +1,32 @@
+/*
+
+*/
+
+
 public class Solution {
     public int[] NextGreaterElement(int[] nums1, int[] nums2) {
-        //build a monotonically decreasing stack
+        Dictionary<int,int> map = new Dictionary<int,int>();
         Stack<int> stack = new Stack<int>();
-        Dictionary<int, int> map = new Dictionary<int, int>();
-        int[] result = new int[nums1.Length];
+        int[] result=new int[nums1.Length];
         
         for(int i=0; i<nums2.Length; i++)
         {
-            while(stack.Count>0 && nums2[stack.Peek()]<nums2[i])
+            while(stack.Count>0 && stack.Peek()<nums2[i])
             {
-                int prevSmaller = stack.Pop();
-                map[nums2[prevSmaller]] = nums2[i];
+                int current=stack.Pop();
+                map[current]=nums2[i];
             }
-            stack.Push(i);
+            stack.Push(nums2[i]);
+        }
+        
+        while(stack.Count>0)
+        {
+            map[stack.Pop()]=-1;
         }
         
         for(int i=0; i<nums1.Length; i++)
         {
-            if(!map.TryGetValue(nums1[i], out result[i]))
-            {
-                result[i] = -1;
-            }
+            result[i]=map[nums1[i]];
         }
         return result;
     }
