@@ -43,5 +43,5 @@ public class Solution {
     }
 }
 
-//time: O(2^n)
-//space: O(N)
+//time: O((N^(T/M))+1)
+//space: O(T/M)
