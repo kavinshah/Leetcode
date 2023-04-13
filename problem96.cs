@@ -29,6 +29,10 @@ F(5) = root(5) + root(4) + root(3) + root(2) + root(1)
      = 19+4+19
      = 42
             
+Use DP formula:
+DP[i] = sum (DP[i-1]*DP[n-i)]	 for 1<=i<=n
+        = 1			when..i=0 or 1
+            
 ** this is a palindrome. We can add logic to reduce number of calculation by half. But it would not have any impact on time complexity.
 
 
@@ -44,7 +48,7 @@ public class Solution {
         {
             for(int j=1; j<=i; j++) // this loop add the number of combination for each root
             {
-                map[i]+=(map[j-1]*map[i-j];
+                map[i]+=(map[j-1]*map[i-j]);
             }
         }
         
