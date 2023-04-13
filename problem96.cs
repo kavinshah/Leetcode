@@ -29,7 +29,7 @@ F(5) = root(5) + root(4) + root(3) + root(2) + root(1)
      = 19+4+19
      = 42
             
-** this is a palindrome
+** this is a palindrome. We can add logic to reduce number of calculation by half. But it would not have any impact on time complexity.
 
 
 */
@@ -44,7 +44,7 @@ public class Solution {
         {
             for(int j=1; j<=i; j++) // this loop add the number of combination for each root
             {
-                map[i]+=map[j-1]*map[i-j];
+                map[i]+=(map[j-1]*map[i-j];
             }
         }
         
