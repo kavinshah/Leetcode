@@ -11,8 +11,15 @@ push 2
 
 stack2 is the temporary queue;
 
-stack1 = [1]
-stack2 = []
+stack1 = [1], stack2=[]
+push stack1 = [1], stack2 = [2]
+push stack1 = [1], stack2 = [2 3]
+push stack1 = [1], stack2 = [2 3 4]
+push stack1 = [1], stack2 = [2 3 4 5]
+push stack1 = [1], stack2 = [2 3 4 5 6]
+pop stack1 = [], stack2 = [2 3 4 5]
+pop stack1 = [5 4 3 2], stack2 = []
+
 
 */
 public class MyQueue {
@@ -23,29 +30,37 @@ public class MyQueue {
     }
     
     public void Push(int x) {
-        stack2=new Stack<int>();
-        while(stack1.Count>0)
-            stack2.Push(stack1.Pop());
         stack2.Push(x);
-        while(stack2.Count>0)
-            stack1.Push(stack2.Pop());
-        return;
     }
     
     public int Pop() {
+        if(stack1.Count==0)
+        {
+            MoveElements();
+        }
         return stack1.Pop();
     }
     
     public int Peek() {
+        if(stack1.Count==0)
+        {
+            MoveElements();
+        }
         return stack1.Peek();
     }
     
     public bool Empty() {
-        return stack1.Count==0;
+        return stack1.Count==0 && stack2.Count==0;
+    }
+    
+    private void MoveElements()
+    {
+        while(stack2.Count>0)
+            stack1.Push(stack2.Pop());
     }
 }
 
-//Push() = O(N)
+//Push() = O(1)
 //Pop() = O(1)
 //Peek() = O(1)
 //Empty() = O(1)
