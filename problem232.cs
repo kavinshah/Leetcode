@@ -45,6 +45,11 @@ public class MyQueue {
     }
 }
 
+//Push() = O(N)
+//Pop() = O(1)
+//Peek() = O(1)
+//Empty() = O(1)
+
 /**
  * Your MyQueue object will be instantiated and called as such:
  * MyQueue obj = new MyQueue();
