@@ -1,30 +1,30 @@
-/*
-
-123
-
-25
-11001
-
-//convert the number to string and reverse it. conver the string back to an int and return it. 
-
-
-*/
-
 public class Solution {
     public int Reverse(int x) {
-        int pop = 0;
-        int rev = 0;
-        while(x!=0){
-            pop=x%10;
-            x=x/10;
-            
-            if(rev>Int32.MaxValue/10 
-               || rev < Int32.MinValue/10
-               || (rev==Int32.MaxValue/10 && pop>7)
-               || (rev==Int32.MinValue/10 && pop<-8))
-                return 0;
-            rev=rev*10+pop;
+        bool negative=false;
+        int prev=0;
+        int reversed=0;
+        
+        if(x<0)
+        {
+            x=-x;
+            negative=true;
         }
-        return rev;
+        
+        while(x>0)
+        {
+            if(((Int32.MaxValue-prev)/9) < prev)
+                return 0;
+            
+            reversed=prev*10+x%10;
+            x=x/10;
+            prev=reversed;
+        }
+        
+        if(negative)
+            reversed=-reversed;
+        return reversed;
     }
 }
+
+//Time: O(LogN/10)
+//Space: O(1)
