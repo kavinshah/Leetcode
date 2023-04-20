@@ -1,17 +1,20 @@
 public class Solution {
     public int ShortestDistance(string[] wordsDict, string word1, string word2) {
-        int p1=0, p2=wordsDict.Length-1;
         int distance=wordsDict.Length;
+        List<int> d1=new List<int>();
+        List<int> d2=new List<int>();
         
         for(int i=0; i<wordsDict.Length; i++)
         {
-            if(wordsDict[i]!=word1)
-                continue;
-            for(int j=0; j<wordsDict.Length; j++)
-            {
-                if(wordsDict[j]==word2)
-                    distance=Math.Min(distance, Math.Abs(i-j));
-            }
+            if(wordsDict[i]==word1)
+                d1.Add(i);
+            
+            if(wordsDict[i]==word2)
+                d2.Add(i);
+            
+            if(d1.Count>0 && d2.Count>0)
+                distance=Math.Min(distance, Math.Abs(d1[^1]-d2[^1]));
+            
         }
         
         return distance;
@@ -19,5 +22,5 @@ public class Solution {
     }
 }
 
-//Time: O(N^2)
-//space: O(1)
+//Time: O(N)
+//space: O(N)
