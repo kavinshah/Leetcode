@@ -78,32 +78,18 @@ public class Solution {
         
         if(node.val<low)
         {
-            if(node.right==null)
-                return null;
-            
-            TreeNode temp=node.right;
-            node.val=temp.val;
-            node.left=temp.left;
-            node.right=temp.right;
-            node=Trim(node);
+            node=Trim(node.right);
         }
-        else if(node.val>high)
+        else if(node!=null && node.val>high)
         {
-            if(node.left==null)
-                return null;
-            
-            TreeNode temp=node.left;
-            node.val=temp.val;
-            node.left=temp.left;
-            node.right=temp.right;
-            node=Trim(node);
+            node=Trim(node.left);
         }
         if(node?.left!=null)
             node.left=Trim(node.left);
         if(node?.right!=null)
             node.right=Trim(node.right);
         return node;
-    }   
+    }
 }
 
 //Time: O(N)
