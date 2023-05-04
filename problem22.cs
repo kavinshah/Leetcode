@@ -3,25 +3,26 @@ public class Solution {
     int n;
     public IList<string> GenerateParenthesis(int n) {
         this.n=n;
-        Generate("", 0, 0);
+        Generate(new StringBuilder(), 0, 0);
         return result;
     }
     
-    public void Generate(string current, int open, int close)
+    public void Generate(StringBuilder current, int open, int close)
     {
         if(open==n && close==n)
         {
-            result.Add(current);
+            result.Add(current.ToString());
             return;
         }
         if(open<n)
         {
-            Generate(current+"(", open+1, close);
+            Generate(current.Append("("), open+1, close);
+            current.Remove(current.Length-1,1);
         }
         if(close<open)
         {
-            Generate(current+")", open, close+1);
-            return;
+            Generate(current.Append(")"), open, close+1);
+            current.Remove(current.Length-1,1);
         }
     }
 }
