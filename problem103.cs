@@ -12,35 +12,43 @@
  * }
  */
 public class Solution {
-    public IList<IList<int>> LevelOrder(TreeNode root) {
-        
+    public IList<IList<int>> ZigzagLevelOrder(TreeNode root) {
         if(root==null)
             return new List<IList<int>>();
         
-        IList<IList<int>> result = new List<IList<int>>();
         Queue<TreeNode> queue = new Queue<TreeNode>();
+        bool order=true;
+        IList<IList<int>> result= new List<IList<int>>();
         queue.Enqueue(root);
-        
-        while(queue.Count!=0)
+        while(queue.Count>0)
         {
             int counter=queue.Count;
-            List<int> level = new List<int>();
-            for(int i=0; i<counter; i++)
+            List<int> currentLevel=new List<int>();
+            while(counter>0)
             {
-                TreeNode current = queue.Dequeue();
-                if(current.left != null)
-                {
-                    queue.Enqueue(current.left);
-                }
-                if(current.right != null)
-                {
-                    queue.Enqueue(current.right);
-                }
-                level.Add(current.val);
+                TreeNode node = queue.Dequeue();
+                currentLevel.Add(node.val);
+                if(node.left!=null)
+                    queue.Enqueue(node.left);
+                if(node.right!=null)
+                    queue.Enqueue(node.right);
+                counter--;
             }
-            result.Add(level);
+            
+            if(order)
+            {
+                result.Add(currentLevel);
+            }
+            else
+            {
+                currentLevel.Reverse();
+                result.Add(currentLevel);
+            }
+            order=!order;
         }
-        
         return result;
     }
 }
+
+//time: O(N)
+//space: O(N)
