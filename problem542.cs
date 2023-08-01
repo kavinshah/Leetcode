@@ -46,71 +46,59 @@
 
 public class Solution {
     public int[][] UpdateMatrix(int[][] mat) {
-        Queue<(int,int,int)> queue = new Queue<(int,int,int)>();
-        int[][] result = new int[mat.Length][];
-        int maxRow=mat.Length-1;
-        int maxCol=mat[0].Length-1;
+        int m = mat.Length;
+        int n = mat[0].Length;
+        int[][] dp = new int[m][];
         
-        for(int i=0; i<result.Length; i++)
-            result[i]=Enumerable.Repeat(Int32.MaxValue, mat[0].Length).ToArray();
-        
-        for(int i=0; i<mat.Length; i++)
-        {
-            for(int j=0; j<mat[0].Length; j++)
-            {
-                if(mat[i][j]==0)
-                {
-                    result[i][j]=0;
-                    if((i+1)<=maxRow)
-                        queue.Enqueue((i+1,j,mat[i][j]+1));
-                    if((i-1)>=0)
-                        queue.Enqueue((i-1,j,mat[i][j]+1));
-                    if((j+1)<=maxCol)
-                        queue.Enqueue((i,j+1,mat[i][j]+1));
-                    if((j-1)>=0)
-                        queue.Enqueue((i,j-1,mat[i][j]+1));
+        for (int row = 0; row < m; row++) {
+            dp[row]=new int[n];
+            for (int col = 0; col < n; col++) {
+                dp[row][col] = mat[row][col];
+            }
+        } 
+
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (dp[row][col] == 0) {
+                    continue;
                 }
-                // Console.WriteLine($"{i},{j}");
-                // printQueue(queue);
+
+                int minNeighbor = m * n;
+                if (row > 0) {
+                    minNeighbor = Math.Min(minNeighbor, dp[row - 1][col]);
+                }
+                
+                if (col > 0) {
+                    minNeighbor = Math.Min(minNeighbor, dp[row][col - 1]);
+                }
+                
+                dp[row][col] = minNeighbor + 1;
             }
         }
         
-        while(queue.Count>0)
-        {
-            int queueCount=queue.Count;
-            // printQueue(queue);
-            for(int i=0; i<queueCount; i++)
-            {
-                (int,int,int) current = queue.Dequeue();
-                if(result[current.Item1][current.Item2] > current.Item3)
-                {
-                    result[current.Item1][current.Item2]=current.Item3;
-                    if((current.Item1+1)<=maxRow)
-                        queue.Enqueue((current.Item1+1,current.Item2,current.Item3+1));
-                    if((current.Item1-1)>=0)
-                        queue.Enqueue((current.Item1-1,current.Item2,current.Item3+1));
-                    if((current.Item2+1)<=maxCol)
-                        queue.Enqueue((current.Item1,current.Item2+1,current.Item3+1));
-                    if((current.Item2-1)>=0)
-                        queue.Enqueue((current.Item1,current.Item2-1,current.Item3+1));
-                    
-                    // if(current.Item1==9 && current.Item2==0)
-                    //     Console.WriteLine(result[current.Item1][current.Item2]);
-                    
+        for (int row = m - 1; row >= 0; row--) {
+            for (int col = n - 1; col >= 0; col--) {
+                if (dp[row][col] == 0) {
+                    continue;
                 }
+                
+                int minNeighbor = m * n;
+                if (row < m - 1) {
+                    minNeighbor = Math.Min(minNeighbor, dp[row + 1][col]);
+                }
+                
+                if (col < n - 1) {
+                    minNeighbor = Math.Min(minNeighbor, dp[row][col + 1]);
+                }
+                
+                dp[row][col] = Math.Min(dp[row][col], minNeighbor + 1);
             }
         }
-        return result;
-    }
-    
-    public void printQueue(Queue<(int,int,int)> queue)
-    {
-        Console.WriteLine("Printing queue");
-        foreach(var q in queue)
-            Console.WriteLine(q);
+        
+        return dp;
     }
 }
 
-//BFS
+//DP
 //Time: O(M*N)
 // Space: O(M*N)
