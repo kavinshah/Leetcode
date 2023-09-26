@@ -45,5 +45,5 @@ public class Solution {
     }
 }
 
-//Time: O(K)
-//Space: O(1)
+//Time: O(H+K)
+//Space: O(H)
