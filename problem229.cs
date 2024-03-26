@@ -1,38 +1,64 @@
 /*
 
-if n%3==0, should it be >n/3 or >=n/3?
--- >n/3. Refer eg. 1
-*/
+2/3n+2
+you can have only 2 elements that appear more than n/3 times in the array
 
+[3,2,3,3,5,4,3,5,2]
+
+first=3
+count1=1
+second, count2=0;
+first=3, count1=1, second=2, count2=1
+first=3, count1=2, second=2, count2=1
+first=3, count1=3, second=2, count2=1
+first=3, count1=3, second=2, count2=1
+first=3, count1=3, second=2, count2=0
+first=3, count1=3, second=4, count2=1
+first=3, count1=4, second=4, count2=1
+first=3, count1=4, second=4, count2=0
+first=3, count1=4, second=2, count2=1
+
+
+total=9
+min=9/3=3
+
+[3,2,3,3,2,2,3,5,2]
+first=3, count1=1, second=2, count2=1
+first=3, count1=2, second=2, count2=1
+first=3, count1=3, second=2, count2=1
+first=3, count1=3, second=2, count2=1
+
+
+
+*/
 
 public class Solution {
     public IList<int> MajorityElement(int[] nums) {
-        int? val1=null, val2=null;
+        IList<int> result = new List<int>();
+        int? first=null, second=null;
         int count1=0, count2=0;
-        List<int> result=new List<int>();
-        int limit=((int)nums.Length/3) + 1;
         
         for(int i=0; i<nums.Length; i++)
         {
-            if(val1!=null && val1==nums[i])
+            if(count1==0 && (second==null || nums[i]!=second))
+            {
+                first=nums[i];
+                count1=1;
+            }
+            else if(count2==0 && (first==null || nums[i]!=first))
+            {
+                second=nums[i];
+                count2=1;
+            }
+            else if(nums[i]==first)
             {
                 count1++;
             }
-            else if(val2!=null && val2==nums[i])
+            else if(nums[i]==second)
             {
                 count2++;
             }
-            else if(count1==0)
-            {
-                val1=nums[i];
-                count1++;
-            }
-            else if(count2==0)
-            {
-                val2=nums[i];
-                count2++;
-            }
-            else // this condition is very important for test cases: 7,7,8,8,9,3,9,3,9,3,9,3
+            else
             {
                 count1--;
                 count2--;
@@ -41,29 +67,23 @@ public class Solution {
         
         count1=0;
         count2=0;
-        
         for(int i=0; i<nums.Length; i++)
         {
-            if(nums[i]==val1)
-            {
+            if(nums[i]==first)
                 count1++;
-            }
-            else if(nums[i]==val2)
-            {
+            if(nums[i]==second)
                 count2++;
-            }
         }
         
-        //Console.WriteLine($"{val1},{val2}, {count1}, {count2}");
+        if(count1 > (int)(nums.Length/3))
+            result.Add((int)first);
         
-        if(count1>=limit)
-            result.Add(val1??0);
-        if(count2>=limit)
-            result.Add(val2??0);
+        if(count2 > (int)(nums.Length/3))
+            result.Add((int)second);
         
         return result;
     }
 }
 
-//time: O(N)
+//time:O(N)
 //space: O(1)
