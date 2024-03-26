@@ -24,5 +24,5 @@ public class Solution {
     }
 }
 
-//time: m*Log(n)
+//time: O(m+n)
 //space: O(1)
