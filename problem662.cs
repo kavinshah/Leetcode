@@ -10,43 +10,59 @@
  *         this.right = right;
  *     }
  * }
- */
-/*
-
-
+ 
+1 3 2 5 3 null 9
+0 1 2 3 4 5    6
+ 
+1 3 2 5 null null 9    6   null     null    null null  null     7
+0 1 2 3 4      5  6    7   8           9   10      11  12      13
+ 
+13-7+1=7
+ 
+ 
 */
+
 public class Solution {
-    Queue<(TreeNode,int)> q, tempQ;
+    Dictionary<int, int> minLevel, maxLevel;
     public int WidthOfBinaryTree(TreeNode root) {
-        int res=0;
-        q=new Queue<(TreeNode,int)>();
-        q.Enqueue((root, 0));
+        minLevel = new Dictionary<int,int>();
+        maxLevel = new Dictionary<int,int>();
+        int maxDistance=1;
         
-        while(q.Count>0)
+        Traverse(root, 0, 0);
+        
+        foreach(var kvp in minLevel)
         {
-            tempQ=new Queue<(TreeNode,int)>(q);
-            q=new Queue<(TreeNode,int)>();
-            res = Math.Max(res, tempQ.ElementAt(tempQ.Count-1).Item2-tempQ.ElementAt(0).Item2+1);
-            //Console.WriteLine("Res:" + res);
-            while(tempQ.Count>0)
-            {
-                (TreeNode, int) current=tempQ.Dequeue();
-                if(current.Item1.left!=null)
-                {
-                    //Console.WriteLine($"{current.Item1}, {current.Item2*2+1}");
-                    q.Enqueue((current.Item1.left, current.Item2*2+1));
-                }
-                
-                if(current.Item1.right!=null)
-                {
-                    //Console.WriteLine($"{current.Item1}, {current.Item2*2+2}");
-                    q.Enqueue((current.Item1.right, current.Item2*2+2));
-                }
-            }
+            if(maxLevel.ContainsKey(kvp.Key))
+                maxDistance = Math.Max(maxDistance, maxLevel[kvp.Key] - minLevel[kvp.Key] + 1);
         }
-        return res;
+        
+        return maxDistance;
+    }
+    
+    void Traverse(TreeNode node, int level, int index)
+    {
+        if(node==null)
+            return;
+        
+        if(!minLevel.ContainsKey(level))
+        {
+            minLevel.Add(level, index);
+        }
+        else
+        {
+            maxLevel[level] = index;
+        }
+        
+        if(node.left!=null)
+            Traverse(node.left, level+1, index*2+1);
+        
+        if(node.right!=null)
+            Traverse(node.right, level+1, index*2+2);
+        
+        return;
     }
 }
 
-//Time: O(N)
-//Space: O(N)
+//time: O(N)
+//Space: O(logN)
