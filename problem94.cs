@@ -13,41 +13,42 @@
  */
 public class Solution {
     public IList<int> InorderTraversal(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<TreeNode>();
+        
         IList<int> result = new List<int>();
+        TreeNode curr = root;
         
-        if(root==null)
-            return result;
-        
-        if(root.right!=null)
-            stack.Push(root.right);
-        stack.Push(root);
-        if(root.left!=null)
-            stack.Push(root.left);
-        root.left=null;
-        root.right=null;
-        
-        while(stack.Count>0)
+        while(curr != null)
         {
-            TreeNode current = stack.Pop();
-            
-            if(current.right == null && current.left == null)
-                result.Add(current.val);
+            if(curr.left==null)
+            {
+                result.Add(curr.val);
+                curr=curr.right;
+            }
             else
             {
-                if(current.right!=null)
-                    stack.Push(current.right);
-                stack.Push(current);
-                if(current.left!=null)
-                    stack.Push(current.left);
-                current.left=null;
-                current.right=null;
+                TreeNode prev = curr.left;
+                while(prev.right!=null && prev.right!=curr)
+                {
+                    prev=prev.right;
+                }
+                
+                if(prev.right==null)
+                {
+                    prev.right=curr;
+                    curr=curr.left;
+                }
+                else
+                {
+                    prev.right=null;
+                    result.Add(curr.val);
+                    curr=curr.right;
+                }
             }
         }
-        
         return result;
     }
 }
 
+//Morris Inorder Traversal
 //time: O(N)
-//space: O(N)
+//space: O(1)
