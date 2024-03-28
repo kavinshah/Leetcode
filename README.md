@@ -1,3 +1,3 @@
 # Leetcode
 
-[Link to](https://leetcode.com/kavinshah/)
+[Leetcode Profile](https://leetcode.com/kavinshah/)
