@@ -19,81 +19,87 @@ public class Node {
         neighbors = _neighbors;
     }
 }
+
+visited=[1,2]
+nodes = {
+1:2,
+2:
+}
+                            [1]
+                        /       \
+
 */
 
 public class Solution {
-    Dictionary<int, Node> map=new Dictionary<int, Node>();
-    HashSet<int> visited = new HashSet<int>();
-    
+    Dictionary<int, Node> nodes;
+    HashSet<int> visited;
     public Node CloneGraph(Node node) {
         
-        if(node==null)
+        if(node == null)
             return null;
         
-        if(node.neighbors==null)
-            return new Node(node.val);
+        nodes = new Dictionary<int, Node>();
+        visited = new HashSet<int>();
+        visited.Add(node.val);
+        Dfs(node);
         
-        CreateGraph(node);
+        //PrintGraph(nodes[node.val]);
         
-        // visited=new HashSet<int>(){node.val};
-        // Print(map[node.val]);
-        
-        return map[node.val];
+        return nodes[node.val];
     }
     
-    public void CreateGraph(Node node)
+    public void Dfs(Node node)
     {
-        Node currentNode;
-        if(!map.ContainsKey(node.val))
-        {
-            map[node.val]=new Node(node.val);
-        }
-        currentNode = map[node.val];
+        if(node==null)
+            return;
         
-        foreach(Node neighbor in node.neighbors)
-        {
-            Node ourNeighbor;
-            if(!map.ContainsKey(neighbor.val))
-            {
-                map[neighbor.val] = new Node(neighbor.val);
-            }
-            ourNeighbor=map[neighbor.val];
-            
-            if(!currentNode.neighbors.Contains(ourNeighbor))
-            {
-                currentNode.neighbors.Add(ourNeighbor);
-            }
-        }
+        if(!nodes.ContainsKey(node.val))
+            nodes[node.val] = new Node(node.val);
         
         foreach(Node n in node.neighbors)
         {
+            if(!nodes.ContainsKey(n.val))
+                nodes[n.val] = new Node(n.val);
+            
+            if(!nodes[node.val].neighbors.Contains(nodes[n.val]))
+                nodes[node.val].neighbors.Add(nodes[n.val]);
+            
+            if(!nodes[n.val].neighbors.Contains(nodes[node.val]))
+                nodes[n.val].neighbors.Add(nodes[node.val]);
+            
             if(!visited.Contains(n.val))
             {
                 visited.Add(n.val);
-                CreateGraph(n);
+                Dfs(n);
+            }
+        }
+        
+        return;
+    }
+    
+    void PrintGraph(Node node)
+    {
+        Queue<Node> queue=new Queue<Node>();
+        HashSet<int> visited = new HashSet<int>();
+        
+        queue.Enqueue(node);
+        visited.Add(node.val);
+        
+        while(queue.Count>0)
+        {
+            Node current = queue.Dequeue();
+            foreach(Node neighbor in current.neighbors)
+            {
+                if(!visited.Contains(neighbor.val))
+                {
+                    visited.Add(neighbor.val);
+                    queue.Enqueue(neighbor);
+                }
             }
         }
         return;
     }
-    
-    // public void Print(Node node)
-    // {
-    //     Console.WriteLine("Visiting:" + node.val);
-    //     foreach(Node n in node.neighbors)
-    //     {
-    //         Console.Write(n.val + "->");
-    //     }
-    //     Console.WriteLine();
-    //     foreach(Node n in node.neighbors)
-    //     {
-    //         if(!visited.Contains(n.val))
-    //         {
-    //             visited.Add(n.val);
-    //             Print(n);
-    //         }
-    //     }
-    // }
 }
 
-//time:O(V+E)*E
-//space: O(V+E)
+//time: O(N)
+//space: O(N)
