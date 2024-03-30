@@ -19,39 +19,61 @@ public class Node {
         next = _next;
     }
 }
+
+queue=[1], temp=[], prev=null, curr=null
+queue=[], temp=[2], prev=null, curr=1
+queue=[], temp=[2,3], prev=2, curr=1
+queue=[2,3], temp=[], prev=null, curr=null
+queue=[3], temp=[], prev=null, curr=2
+queue=[3], temp=[4], prev=4, curr=2
+queue=[3], temp=[4,5], prev=5, curr=2
+queue=[], temp=[4,5,6,7], prev=6, curr=3
+queue=[4,5,6,7], temp=[], prev=null, curr=null
+queue=[5,6,7], temp=[], prev=4, curr=4
+queue=[6,7], temp=[], prev=5, curr=5
+queue=[7], temp=[], prev=5, curr=6
+queue=[], temp=[], prev=6, curr=7
+
 */
 
 public class Solution {
     public Node Connect(Node root) {
-        Dfs(root, null);
+        
+        if(root==null)
+            return null;
+        
+        //use bfs and store all items in the queue with its level id
+        Queue<Node> queue = new Queue<Node>();
+        queue.Enqueue(root);
+        while(queue.Count>0)
+        {
+            Queue<Node> temp = new Queue<Node>();
+            Node prev=null;
+            while(queue.Count>0)
+            {
+                Node curr = queue.Dequeue();
+                
+                if(curr.left!=null)
+                {
+                    temp.Enqueue(curr.left);
+                }
+                
+                if(curr.right!=null)
+                {
+                    temp.Enqueue(curr.right);
+                }
+                
+                if(prev!=null)
+                {
+                    prev.next=curr;
+                }
+                prev=curr;
+            }
+            queue=temp;
+        }
         return root;
-            
-    }
-    
-    public void Dfs(Node current, Node parent)
-    {
-        if(current==null)
-            return;
-        
-        if(current.left != null)
-        {
-            current.left.next = current.right;
-        }
-        
-        if(current.right != null && current.next!=null)
-        {
-            current.right.next = current.next.left;
-        }
-        
-        // if(current.next!=null)
-        //     Console.WriteLine($"{current.val}, {current.next.val}");
-        // else
-        //     Console.WriteLine($"{current.val}, Null");
-        
-        Dfs(current.left, current);
-        Dfs(current.right, current);
     }
 }
 
-//time: O(N)
-//space: O(N) due to stack
+//Time: O(N)
+//space: O(N)
