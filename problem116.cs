@@ -42,38 +42,25 @@ public class Solution {
         if(root==null)
             return null;
         
-        //use bfs and store all items in the queue with its level id
-        Queue<Node> queue = new Queue<Node>();
-        queue.Enqueue(root);
-        while(queue.Count>0)
-        {
-            Queue<Node> temp = new Queue<Node>();
-            Node prev=null;
-            while(queue.Count>0)
-            {
-                Node curr = queue.Dequeue();
-                
-                if(curr.left!=null)
-                {
-                    temp.Enqueue(curr.left);
-                }
-                
-                if(curr.right!=null)
-                {
-                    temp.Enqueue(curr.right);
-                }
-                
-                if(prev!=null)
-                {
-                    prev.next=curr;
-                }
-                prev=curr;
-            }
-            queue=temp;
-        }
+        Traverse(root);
         return root;
+    }
+    
+    void Traverse(Node current)
+    {
+        if(current==null)
+            return;
+        
+        if(current.left!=null)
+            current.left.next = current.right;
+        
+        if(current.right!=null && current.next!=null)
+            current.right.next = current.next.left;
+        
+        Traverse(current.left);
+        Traverse(current.right);
     }
 }
 
 //Time: O(N)
-//space: O(N)
+//space: O(1)
