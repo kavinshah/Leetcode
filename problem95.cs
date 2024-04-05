@@ -114,114 +114,41 @@ n=3
 */
 
 public class Solution {
-    Dictionary<(int,int), List<TreeNode>> roots;
+    
     public IList<TreeNode> GenerateTrees(int n) {
-        roots = new Dictionary<(int,int), List<TreeNode>>();
-        for(int i=0; i<n; i++)
-        {
-            for(int j=1; j<=(n-i); j++)
-            {
-                roots.Add((j,j+i), MakeSubTrees(j, j+i));
-            }
-        }
-        return roots[(1,n)];
+        return GenerateTrees(1, n);
     }
     
-    List<TreeNode> MakeSubTrees(int low, int high)
+    List<TreeNode> GenerateTrees(int low, int high)
     {
-        List<TreeNode> subtrees = new List<TreeNode>();
+        List<TreeNode> result = new List<TreeNode>();
         
         if(low>high)
-            return new List<TreeNode>();
-        
-        if(roots.ContainsKey((low, high)))
         {
-            return roots[(low, high)];
+            result.Add(null);
+            return result;
         }
+            
         
-        //Console.WriteLine("Calling {0}, {1}", low, high);
         for(int i=low; i<=high; i++)
         {
-            TreeNode root = new TreeNode(i);
-            //go for possible left subtrees
-            List<TreeNode> leftsubtrees = new List<TreeNode>();
-            foreach(TreeNode l in MakeSubTrees(low, i-1))
-            {
-                TreeNode ls = Clone(root);
-                ls.left = Clone(l);
-                leftsubtrees.Add(ls);
-            }
+            List<TreeNode> leftsubtrees = GenerateTrees(low, i-1);
+            List<TreeNode> rightsubtrees = GenerateTrees(i+1, high);
             
-            if(leftsubtrees.Count==0)
+            foreach(TreeNode l in leftsubtrees)
             {
-                leftsubtrees.Add(root);
-            }
-            
-            List<TreeNode> rightsubtrees = new List<TreeNode>();
-            //go for possible right subtrees
-            foreach(TreeNode r in MakeSubTrees(i+1, high))
-            {
-                foreach(TreeNode l in leftsubtrees)
+                foreach(TreeNode r in rightsubtrees)
                 {
-                    TreeNode newroot = Clone(l);
-                    newroot.right = Clone(r);
-                    rightsubtrees.Add(newroot);
+                    TreeNode node = new TreeNode(i);
+                    node.left = l;
+                    node.right = r;
+                    result.Add(node);
                 }
             }
-            
-            if(rightsubtrees.Count==0)
-            {
-                subtrees.AddRange(leftsubtrees);
-            } else {
-                subtrees.AddRange(rightsubtrees);
-            }
         }
-        
-        // Console.WriteLine("BFS Traversal of {0}, {1}", low, high);
-        // foreach(TreeNode node in subtrees)
-        // {
-        //     Console.WriteLine("Root:{0}", node.val);
-        //     Traverse(node);
-        // }
-        
-        return subtrees;
+        return result;
     }
-    
-    TreeNode Clone(TreeNode node)
-    {
-        if(node==null)
-            return null;
-        TreeNode newnode = new TreeNode(node.val);
-        newnode.left = Clone(node.left);
-        newnode.right = Clone(node.right);
-        return newnode;
-    }
-    
-//     void Traverse(TreeNode root)
-//     {
-//         if(root==null)
-//             return;
-        
-//         Queue<TreeNode> queue = new Queue<TreeNode>();
-//         queue.Enqueue(root);
-        
-//         while(queue.Count>0)
-//         {
-//             Queue<TreeNode> newQueue = new Queue<TreeNode>();
-//             Console.WriteLine();
-//             while(queue.Count>0)
-//             {
-//                 TreeNode current = queue.Dequeue();
-//                 Console.Write(current.val + "\t");
-//                 if(current.left!=null)
-//                     newQueue.Enqueue(current.left);
-//                 if(current.right!=null)
-//                     newQueue.Enqueue(current.right);
-//             }
-//             queue = newQueue;
-//         }
-//         Console.WriteLine();
-//         return;
-//     }
-    
 }
+
+//time: O(4^N/sqrt(N))
+//Space: O((N-K+1)*4^K/sqrt(K))
