@@ -28,8 +28,6 @@ first=3, count1=2, second=2, count2=1
 first=3, count1=3, second=2, count2=1
 first=3, count1=3, second=2, count2=1
 
-
-
 */
 
 public class Solution {
@@ -40,23 +38,23 @@ public class Solution {
         
         for(int i=0; i<nums.Length; i++)
         {
-            if(count1==0 && (second==null || nums[i]!=second))
+            if(first!=null && nums[i]==first)
+            {
+                count1++;
+            }
+            else if(second!=null && nums[i]==second)
+            {
+                count2++;
+            }
+            else if(count1==0)
             {
                 first=nums[i];
                 count1=1;
             }
-            else if(count2==0 && (first==null || nums[i]!=first))
+            else if(count2==0)
             {
                 second=nums[i];
                 count2=1;
-            }
-            else if(nums[i]==first)
-            {
-                count1++;
-            }
-            else if(nums[i]==second)
-            {
-                count2++;
             }
             else
             {
@@ -84,6 +82,3 @@ public class Solution {
         return result;
     }
 }
-
-//time:O(N)
-//space: O(1)
