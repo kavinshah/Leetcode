@@ -1,5 +1,7 @@
 /*
 
+really good explanation: https://www.youtube.com/watch?v=Vn2v6ajA7U0&t=2s
+
 [2,2,2,2]
 
 [], 
