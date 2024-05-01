@@ -1,3 +1,5 @@
+#https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+
 class Solution:    
     #Function to get the maximum total value in the knapsack.
     def fractionalknapsack(self, w,arr,n):
