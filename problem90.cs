@@ -36,7 +36,6 @@
 public class Solution {
     int[] nums;
     IList<IList<int>> result = new List<IList<int>>();
-    //HashSet<IList<int>> result = new HashSet<IList<int>>();
     
     public IList<IList<int>> SubsetsWithDup(int[] nums) {
         this.nums=nums;
@@ -50,21 +49,22 @@ public class Solution {
         if(index==nums.Length){
             List<int> newList = new List<int>();
             newList.AddRange(currentList);
-            foreach(List<int> item in result){
-                if(item.SequenceEqual(newList))
-                    return;
-            }
             result.Add(newList);
             return;
         }
         
-        FindSubsets(index+1, currentList);
         currentList.Add(nums[index]);
         FindSubsets(index+1, currentList);
         currentList.RemoveAt(currentList.Count-1);
+        
+        while((index+1)<nums.Length && nums[index]==nums[index+1]){
+            index++;
+        }
+        FindSubsets(index+1, currentList);
+        
         return;
     }
 }
 
-//Time: O(2^N*2^N)
-//space: O(2^N)
+//time: O(N*2^N)
+//space: O(N)
