@@ -48,5 +48,6 @@ public class Solution {
     }
 }
 
+// ** Need to re-verify time and space complixity.
 //time: O(2^t*k)		---- for every combinations, we are allowed to pick an element multiple times and hence the complexity is 2^t and not 2^n. We also need O(k) time to copy over the elements to a new list if the target is reached
 //space: O(k*x)			---- for x combinations, each of length k
