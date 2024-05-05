@@ -32,9 +32,7 @@ public class Solution {
         }
         
         for(int i=0; i<nums.Length; i++){
-            if(!includedIndexes.Contains(i)){
-                if(CheckDuplicateOfPreviousNext(i))
-                    continue;
+            if(!includedIndexes.Contains(i) && !CheckDuplicateOfPreviousNext(i)){
                 includedIndexes.Add(i);
                 includedElements.Add(nums[i]);
                 FindPermutations();
