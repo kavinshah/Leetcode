@@ -18,14 +18,27 @@
 public class Solution {
     public void NextPermutation(int[] nums) {
         int low=-1, high=-1;
+        Stack<int> monotonicStack = new Stack<int>();
+        int[] previousSmaller = new int[nums.Length];
+        previousSmaller[0]=-1;
+        monotonicStack.Push(0);
+        
+        for(int i=1; i<nums.Length; i++){
+            while(monotonicStack.Count>0 && nums[monotonicStack.Peek()] >= nums[i])
+                monotonicStack.Pop();
+            if(monotonicStack.Count>0)
+                previousSmaller[i] = monotonicStack.Peek();
+            else
+                previousSmaller[i]=-1;
+            monotonicStack.Push(i);
+        }
+        
+        //Console.WriteLine("Previous Smaller: {0}", String.Join(",", previousSmaller));
         
         for(int i=nums.Length-1; i>=0; i--){
-            for(int j=i-1; j>=0; j--){
-                if(nums[j]<nums[i] && j>low){
-                    low=j;
-                    high=i;
-                    break;
-                }
+            if(previousSmaller[i]>low){
+                low=previousSmaller[i];
+                high=i;
             }
         }
         
@@ -46,5 +59,5 @@ public class Solution {
     }
 }
 
-//time: O(N^2)
-//Space: O(1)
+//time: O(N)
+//Space: O(N)
