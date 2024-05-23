@@ -9,6 +9,9 @@ We can reuse elements of wordbank any number of times.
 // Online C# Editor for free
 // Write, Edit and Run your C# code using C# Online Compiler
 
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -26,7 +29,7 @@ public class HelloWorld
     public static void Test(string target, string[] wordDict)
     {
         CanConstruct c = new CanConstruct(target, wordDict);
-        Console.WriteLine(c.CheckCanConstruct(0));
+        Console.WriteLine(c.CheckCanConstruct());
     }
 }
 
@@ -34,49 +37,36 @@ public class CanConstruct
 {
     string target;
     HashSet<string> wordDict;
-    int[] dp;
+    bool[] dp;
     
     public CanConstruct(string target, string[] wordDict)
     {
         this.target = target;
         this.wordDict = new HashSet<string>(wordDict);
-        this.dp = new int[target.Length];
+        this.dp = new bool[target.Length+1];
+        this.dp[0]=true;
     }
     
-    public bool CheckCanConstruct(int index)
+    public bool CheckCanConstruct()
     {
-        
-        if(index==target.Length)
+        for(int i=0; i<target.Length; i++)
         {
-            return true;
-        }
-        
-        if(dp[index] != 0)
-        {
-            return dp[index]==1?true:false;
-        }
-        
-        //backtracking
-        StringBuilder currentString = new StringBuilder();
-        for(int i=index; i<target.Length; i++)
-        {
-            currentString.Append(target[i]);
-            if(!wordDict.Contains(currentString.ToString()))
+            if(dp[i])
             {
-                continue;
-            }
-            
-            if(CheckCanConstruct(i+1))
-            {
-                dp[index]=1;
-                return true;
+                foreach(string word in wordDict)
+                {
+                    if((i+word.Length)<=target.Length && target.Substring(i, word.Length) == word)
+                    {
+                        //Console.WriteLine("{0}, {1}", i, word);
+                        dp[i+word.Length]=true;
+                    }
+                }
             }
         }
-        
-        dp[index]=-1;
-        return false;
+        //Console.WriteLine(String.Join(",", dp));
+        return dp[target.Length];
     }
 }
 
-//time: O(N^2) -- n= target.length, m=worddict.count
-//space: O(N)
+//Time: O(N^2*M) -- n=target.length, m=worddict.Count
+//Space: O(N)
