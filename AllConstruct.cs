@@ -1,5 +1,10 @@
 /*
 
+** Revisit tabulation
+** revisit time and space complexity 
+
+https://www.youtube.com/watch?v=oBt53YbR9Kk&t=5418s
+
 Given a target and an array of strings - wordbank, return all the ways in which the target string can be constructed using elements from the wordbank.
 
 We can reuse elements of wordbank any number of times.
