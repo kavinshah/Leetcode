@@ -7,6 +7,15 @@ You can only travel in right or down direction.
 // Online C# Editor for free
 // Write, Edit and Run your C# code using C# Online Compiler
 
+/*
+
+Given a 2D grid, return the number of ways to travel from top left to bottom right corner.
+You can only travel in right or down direction.
+
+*/
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
 using System;
 using System.Linq;
 
@@ -14,7 +23,9 @@ public class HelloWorld
 {
     public static void Main(string[] args)
     {
+        Test(1,1);
         Test(2,3);
+        Test(3,2);
         Test(3,3);
         Test(18, 18);
     }
@@ -22,7 +33,7 @@ public class HelloWorld
     public static void Test(int row, int col)
     {
         GridTraveller s = new GridTraveller(row, col);
-        Console.WriteLine(s.Travel(0, 0));
+        Console.WriteLine(s.Travel());
     }
 }
 
@@ -40,32 +51,29 @@ public class GridTraveller
         for(int i=0; i<row; i++)
         {
             this.dp[i] = new long[col];
-            for(int j=0; j<col; j++)
-            {
-                this.dp[i][j] = -1;
-            }
         }
+        this.dp[0][0]=1;
     }
     
-    public long Travel(int row, int col)
+    public long Travel()
     {
-        if(row == maxRow && col == maxCol)
+        for(int i=0; i<=maxRow; i++)
         {
-            return 1;
+            for(int j=0; j<=maxCol; j++)
+            {
+                if((i+1) <= maxRow)
+                {
+                    dp[i+1][j] += dp[i][j];
+                }
+                
+                if((j+1) <= maxCol)
+                {
+                    dp[i][j+1] += dp[i][j];
+                }
+            }
         }
         
-        if(row > maxRow || col > maxCol)
-        {
-            return 0;
-        }
-        
-        if(dp[row][col] != -1)
-        {
-            return dp[row][col];
-        }
-        
-        dp[row][col] = Travel(row+1, col) + Travel(row, col+1);
-        return dp[row][col];
+        return dp[maxRow][maxCol];
     }
 }
 
