@@ -86,5 +86,5 @@ public class BestSum
     }
 }
 
-//time: O(target*n*target)
+//time: O(nlogn + target*n*target)
 //Space: O(target*target)

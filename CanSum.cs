@@ -66,5 +66,5 @@ public class CanSum
     
 }
 
-//Time: O(N*target) -- N = length of numbers array
+//Time: O(NlogN + N*target) -- N = length of numbers array
 //Space: O(target)

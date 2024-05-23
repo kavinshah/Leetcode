@@ -89,5 +89,5 @@ public class HowSum
     }
 }
 
-// time: O(N*target^2)
+// time: O(NlogN + N*target^2)
 //Space: O(target*2)
