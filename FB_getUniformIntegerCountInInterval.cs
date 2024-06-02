@@ -22,6 +22,15 @@ int[300] : 9+9+2 = 20
 
 20-15 = 5
 
+approach:
+1. Count the number of digits in input 1
+2. Calculate the number of uniform numbers from 1 to input 1
+3. Repeat 1 and 2 for input 2
+4. Return the difference
+
+Gotcha:
+If input1 is a uniform integer, include it in the result.
+
 
 
 */
@@ -88,5 +97,5 @@ class Solution {
   
 }
 
-//time: O(M+N)
+//time: O(M+N) -- M = number of digits in A, N=number of digits in B
 //Space: O(1)
