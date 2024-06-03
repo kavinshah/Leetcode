@@ -1,61 +1,42 @@
 /*
 
-LVIII
-50 + 5 + 3 = 58
 
-MCMXCIV
-1000 + 900 + 90 + 4 = 1994
-
-DCCCXCIX
-i=0, prev=500
-i=1, prev=100, curr=100, result = 500
-i=2, prev=100, curr=100, result = 600
-i=3, prev=100, curr=100, result = 700
-i=4, prev=10, curr=10, result = 800
-i=5, prev=100, curr=100, result = 790
-i=6, prev=1, curr=1, result = 890
-i=7, prev=10, curr=10, result = 889
-i=8, result=899
 
 */
 
-
 public class Solution {
     public int RomanToInt(string s) {
+        Dictionary<string, int> romanToInt = new Dictionary<string, int>();
+        int i=0;
         int result=0;
-        int prev=RomanToInt(s[0]);
-        for(int i=1; i<s.Length; i++){
-            int current = RomanToInt(s[i]);
-            if(current>prev){
-                result += -prev;
-            } else {
-                result += prev;
-            }
-            prev = current;
-        }
         
-        result+= prev;
-        return result;
-    }
-    
-    public int RomanToInt(char c){
-        switch(c){
-            case 'M':
-                return 1000;
-            case 'D':
-                return 500;
-            case 'C':
-                return 100;
-            case 'L':
-                return 50;
-            case 'X':
-                return 10;
-            case 'V':
-                return 5;
-            case 'I':
-                return 1;
+        romanToInt.Add("IV", 4);
+        romanToInt.Add("IX", 9);
+        romanToInt.Add("XL", 40);
+        romanToInt.Add("XC", 90);
+        romanToInt.Add("CD", 400);
+        romanToInt.Add("CM", 900);
+        romanToInt.Add("I", 1);
+        romanToInt.Add("V", 5);
+        romanToInt.Add("X", 10);
+        romanToInt.Add("L", 50);
+        romanToInt.Add("C", 100);
+        romanToInt.Add("D", 500);
+        romanToInt.Add("M", 1000);
+        
+        while(i<s.Length)
+        {
+            string current = s[i].ToString();
+            if((i+1)<s.Length && romanToInt.ContainsKey(s[i].ToString() + s[i+1].ToString()))
+            {
+                result += romanToInt[s[i].ToString() + s[i+1].ToString()];
+                i+=2;
+            } else {
+                result += romanToInt[s[i].ToString()];
+                i+=1;
+            }
         }
-        return 0;
+        return result;
     }
 }
 
