@@ -59,54 +59,60 @@ namespace DriverCode
 class Solution
 {
 	//Complete this function
+	List<List<int>> adj;
+	HashSet<int> visited;
 	public bool isPossible(int N,int P, List<Tuple<int, int>> prerequisites)
 	{
 		//Your code here
-		int[] indegree = new int[N];
-		Queue<int> queue = new Queue<int>();
-		HashSet<int> visited = new HashSet<int>();
-		List<List<int>> adj = new List<List<int>>();
+		visited = new HashSet<int>();
+		adj = new List<List<int>>();
 		
 		for(int i=0; i<N; i++)
 			adj.Add(new List<int>());
 		
 		foreach(Tuple<int, int> t in prerequisites)
 		{
-			indegree[t.Item1]++;
 			adj[t.Item2].Add(t.Item1);
 		}
 		
+		//check for cycles
 		for(int i=0; i<N; i++)
 		{
-			if(indegree[i]==0 && !visited.Contains(i))
+			if(!visited.Contains(i))
 			{
-				queue.Enqueue(i);
 				visited.Add(i);
-			}
-		}
-		
-		while(queue.Count>0)
-		{
-			int current = queue.Dequeue();
-			
-			foreach(int n in adj[current])
-			{
-				indegree[n] -= 1;
-				if(indegree[n]==0 && !visited.Contains(n))
+				if(CheckCycles(i, new HashSet<int>(){i}))
 				{
-					queue.Enqueue(n);
-					visited.Add(n);
+					//Console.WriteLine("printing false: {0}", i);
+					return false;
 				}
 			}
+		}
+		return true;
+	}
+	
+	public bool CheckCycles(int node, HashSet<int> path)
+	{
+		foreach(int n in adj[node])
+		{
 			
-			if(visited.Count == N)
+			if(path.Contains(n)){
 				return true;
+			}
 			
+			if(!visited.Contains(n))
+			{
+				path.Add(n);
+				if(CheckCycles(n, path)){
+					//Console.WriteLine("printing false: {0}", n);
+					return true;
+				}
+				path.Remove(n);
+			}
 		}
 		
-		return visited.Count==N;
-		
-		
-		
+		visited.Add(node);
+		return false;
 	}
+	
 }
